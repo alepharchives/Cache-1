@@ -1,0 +1,13 @@
+{application, change_relay,
+ [{description, "A simple mnesia_event, subscription notification system"},
+  {vsn, "1.0.0"},
+  {modules, [change_relay,
+             cr_app, 
+             cr_sup 
+	    ]},	     
+  {registered, [cr_sup, change_relay]},
+  
+  {applications, [kernel, stdlib, jc]},
+  {mod, {cr_app, []}}
+ ]
+}.

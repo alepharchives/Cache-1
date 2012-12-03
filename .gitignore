@@ -1,0 +1,16 @@
+.eunit
+deps
+lib/*/ebin/
+lib/*/test/log/
+lib/*/logs
+log/*
+lib/*/doc
+rel/jc/
+local
+*.o
+*.beam
+*.plt
+*.dump
+test/log
+*~
+ttb_last_config

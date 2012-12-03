@@ -1,0 +1,14 @@
+{application, jc_http_server,
+ [{description, "Mochiweb http server providing front-end to JCache"},
+  {vsn, "1.0.0"},
+  {modules, [jc_http_server,
+  	     jc_http_lp,
+             jchs_app, 
+             jchs_sup,
+	     json_formatter
+	    ]},	     
+  {registered, [jchs_sup]},
+  {applications, [kernel, stdlib, jc, change_relay]},
+  {mod, {jchs_app, []}}
+ ]
+}.

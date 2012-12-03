@@ -1,0 +1,37 @@
+2012-11-12 12:19:57 =ERROR REPORT====
+Loading of c:/Erlang/Repositories/JCache/lib/jc/priv/test.beam failed: not_purged
+2012-11-12 12:19:57 =ERROR REPORT====
+Module test must be purged before loading
+
+2012-11-12 12:19:59 =ERROR REPORT====
+Module test must be purged before loading
+
+2012-11-12 12:19:59 =ERROR REPORT====
+Loading of c:/Erlang/Repositories/JCache/lib/jc/priv/test.beam failed: not_purged
+2012-11-12 12:20:11 =ERROR REPORT====
+Module test must be purged before loading
+
+2012-11-12 12:20:11 =ERROR REPORT====
+Loading of c:/Erlang/Repositories/JCache/lib/jc/priv/test.beam failed: not_purged
+2012-11-12 12:20:24 =ERROR REPORT====
+** Generic server sasl_sup terminating 
+** Last message in was {'EXIT',<0.37.0>,killed}
+** When Server state == {state,{local,sasl_sup},one_for_one,[{child,<0.43.0>,release_handler,{release_handler,start_link,[]},permanent,2000,worker,[]},{child,<0.40.0>,sasl_safe_sup,{supervisor,start_link,[{local,sasl_safe_sup},sasl,safe]},permanent,infinity,supervisor,[sasl]}],undefined,0,1,[],sasl,[]}
+** Reason for termination == 
+** killed
+2012-11-12 12:20:24 =CRASH REPORT====
+  crasher:
+    initial call: supervisor:sasl/1
+    pid: <0.39.0>
+    registered_name: sasl_sup
+    exception exit: {killed,[{gen_server,terminate,6,[{file,"gen_server.erl"},{line,747}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,227}]}]}
+    ancestors: [<0.37.0>]
+    messages: []
+    links: [<0.37.0>]
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 233
+    stack_size: 24
+    reductions: 266
+  neighbours:

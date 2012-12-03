@@ -1,0 +1,218 @@
+Add Method: Writing one key, json return
+
+<FORM method = "post" action="http://localhost:9000/add">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"{\"bed112\": {\"id\":\"1213\",\"status\":\"occupied\"}}","type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+MAdd Method: Writing three keys in one ACID trx, bed112 should fail, json return
+<FORM method = "post" action="http://localhost:9000/add">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"{\"bed112\": {\"id\":\"1213\",\"status\":\"occupied\"}}","type":"bed","scope":"3A"}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":"{\"bed113\": {\"id\":\"1213\",\"status\":\"occupied\"}}","type":"bed","scope":"3A"}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed114", "value":"{\"bed114\": {\"id\":\"1213\",\"status\":\"occupied\"}}","type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+Append Method: JSON Return
+<FORM method = "post" action="http://localhost:9000/append">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"Append", "value":1,"type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Incr Method: Json Return
+<FORM method = "post" action="http://localhost:9000/increment">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"Numeric", "value":10}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Decr Method: Json Return
+<FORM method = "post" action="http://localhost:9000/decrement">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"Numeric", "value":10}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+GETSET Method: JSON return
+<FORM method = "post" action="http://localhost:9000/getset">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"Numeric", "value":"43"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+Replace Method: JSON return Replacing one key
+<FORM method = "post" action="http://localhost:9000/replace">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"\"2nd replaced value\"","type":0,"scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Replace Method: JSON Replace Replace three keys in one ACID trx, bed115 should fail, one has ttl
+<FORM method = "post" action="http://localhost:9000/replace">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"\"should have this new value\"","type":"bed","scope":"3A","ttl":30}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":null,"type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed115", "value":"\"should fail\"","type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Replace_scope, _type and _value: JSON return
+<FORM method = "post" action="http://localhost:9000/replace_scope">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":"\"3A-replace\""}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+<FORM method = "post" action="http://localhost:9000/replace_type">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":"bed-replace"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+<FORM method = "post" action="http://localhost:9000/replace_value">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":"\"value-replace\""}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+Set Method: Inserting one key
+
+<FORM method = "post" action="http://localhost:9000/set">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"\"I set this\"","type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Set Method: Writing multiple keys in one ACID transaction
+
+<FORM method = "post" action="http://localhost:9000/set">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed116", "value":"\"new value\""}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed117", "value":"\"new value\"","ttl":30}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed118", "value":"\"a value\"","type":"bed","scope":"3A"}' /> <br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed119", "value":"\"a value\"","type":"bed","scope":"3A", "ttl":30}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Scope_Set Method: Replace scope 3A
+<FORM method = "post" action="http://localhost:9000/scope_set">
+<input type = "text" name = "target" size = 10 value = "3A" /> <br />       
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed119", "value":"\"a value\"","type":"bed","scope":"3A", "ttl":30}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed120", "value":"\"bed120s value\"","type":"bed","scope":"3A"}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed121", "value":"\"a value\""}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+Scope_Set with stash: Replace scope 3A
+<FORM method = "post" action="http://localhost:9000/scope_set">
+<input type = "text" name = "target" size = 10 value = "3A" /> <br />       
+<input type = "text" name = "stash" size = 10 value = "STASH" /> <br />       
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed1119", "value":"\"a value\"","type":"bed","scope":"3A", "ttl":30}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed1120", "value":"\"bed120s value\"","type":"bed","scope":"3A"}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed1121", "value":"\"a value\""}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Type_Set Method: Replace type bed
+<FORM method = "post" action="http://localhost:9000/type_set">
+<input type = "text" name = "target" size = 10 value = "bed" /> <br />       
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed119", "value":"\"a value\"","type":"bed","scope":"3A", "ttl":30}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed120", "value":"\"bed120s value\"","type":"bed","scope":"3A"}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed121", "value":"\"a value\""}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+
+Type_set with stash Method: Replace type BED
+<FORM method = "post" action="http://localhost:9000/type_set">
+<input type = "text" name = "target" size = 10 value = "BED" /> <br />       
+<input type = "text" name = "stash" size = 10 value = "STASHTYPE" /> <br />       
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed1119", "value":"\"a value\"","type":"bed","scope":"3A", "ttl":30}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed1120", "value":"\"bed120s value\"","type":"bed","scope":"3A"}' /> <br />
+<input type = "text" name = "item" size = 80
+       value = '{"key":"bed1121", "value":"\"a value\""}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+Longpolling: subscribe to scope 3A and key bed113 using url 
+http://localhost:9000/longpoll/subscribe?scope=3A;key=bed113

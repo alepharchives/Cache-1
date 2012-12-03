@@ -1,0 +1,225 @@
+Add Method: Writing one key
+<FORM method = "post" action="http://107.22.186.201/add">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":{"bed112": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Add Method: XML: Writing one key
+<FORM method = "post" action="http://107.22.186.201/add?format=xml">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":{"bed112": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+Add Method: Writing three keys in one ACID trx, bed112 should fail
+<FORM method = "post" action="http://107.22.186.201/add">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":{"bed112": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":{"bed113": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed114", "value":{"bed114": {"id":"1214","status":"occupied"}},"type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Add Method: XML: Writing three keys in one ACID trx, bed112 should fail
+<FORM method = "post" action="http://107.22.186.201/add?format=xml">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":{"bed112": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":{"bed113": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed114", "value":{"bed114": {"id":"1214","status":"occupied"}},"type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Replace Method: Replacing one key
+<FORM method = "post" action="http://107.22.186.201/replace">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"replaced value","type":0,"scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Replace Method: XML: Replacing one key
+<FORM method = "post" action="http://107.22.186.201/replace?format=xml">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"replaced value","type":0,"scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Replace Method: Replace three keys in one ACID trx, bed115 should fail, one has ttl
+<FORM method = "post" action="http://107.22.186.201/replace">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"should have this new value","type":"bed","scope":"3A","ttl":30}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":null,"type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed115", "value":"should fail","type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+Replace Method: XML: Replace three keys in one ACID trx, bed115 should fail, one has ttl
+<FORM method = "post" action="http://107.22.186.201/replace?format=xml">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"should have this new value","type":"bed","scope":"3A","ttl":30}' /><br />
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed113", "value":null,"type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed115", "value":"should fail","type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+Set Method: Inserting one key
+
+<FORM method = "post" action="http://107.22.186.201/set">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"I set this","type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Set Method: XML: Inserting one key
+
+<FORM method = "post" action="http://107.22.186.201/set?format=xml">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed112", "value":"I set this","type":"bed","scope":"3A"}' /><br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Set Method: Writing multiple keys in one ACID transaction
+
+<FORM method = "post" action="http://107.22.186.201/set">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed116", "value":"a new value","type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed117", "value":" a value","type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+Set Method: XML: Writing multiple keys in one ACID transaction
+
+<FORM method = "post" action="http://107.22.186.201/set?format=xml">
+<input type = "text" 
+       name = "item"
+       size = 80 
+       value = '{"key":"bed116", "value":"a new value","type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       size = 80
+       name = "item" 
+       value = '{"key":"bed117", "value":" a value","type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Set Method: Replace scope 3A
+
+<FORM method = "post" action="http://107.22.186.201/set?scope=3A">
+<input type = "text" 
+       name = "item" 
+       size = 80
+       value = '{"key":"113", "value":"replaced scope","type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       name = "item" 
+       size = 80
+       value = '{"key":"114", "value":"replaced scope","type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+ 
+Set Method: XML: Replace scope 3A
+
+<FORM method = "post" action="http://107.22.186.201/set?scope=3A;format=xml">
+<input type = "text" 
+       name = "item" 
+       size = 80
+       value = '{"key":"113", "value":"replaced scope","type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       name = "item" 
+       size = 80
+       value = '{"key":"114", "value":"replaced scope","type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+Set Method: Replace type bed
+
+<FORM method = "post" action="http://107.22.186.201/set?type=bed">
+<input type = "text" 
+       name = "item" 
+       size = 80
+       value = '{"key":"bed113", "value":{"bed113": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       name = "item" 
+       size = 80
+       value = '{"key":"bed115", "value":{"bed115": {"id":"1215","status":"available"}},"type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+Set Method: XML: Replace type bed
+
+<FORM method = "post" action="http://107.22.186.201/set?type=bed;format=xml">
+<input type = "text" 
+       name = "item" 
+       size = 80
+       value = '{"key":"bed113", "value":{"bed113": {"id":"1213","status":"occupied"}},"type":"bed","scope":"3A"}' /><br />
+<input type = "text"
+       name = "item" 
+       size = 80
+       value = '{"key":"bed115", "value":{"bed115": {"id":"1215","status":"available"}},"type":"bed","scope":"3A"}' /> <br />
+<P><INPUT type="submit" value="Submit"></P>
+</FORM>
+
+
+
+Longpolling: subscribe to scope 3A and key bed113 using url 
+http://107.22.186.201/longpoll/subscribe?scope=3A;key=bed113

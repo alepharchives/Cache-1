@@ -1,0 +1,18 @@
+{application, jc,
+ [{description, "A simple caching system"},
+  {vsn, "1.0.0"},
+  {modules, [
+  	     jc,
+             jc_app, 
+	     jc_eviction_manager,	
+	     jc_trx,
+	     jc_session_manager,
+	     jc_store,	
+             jc_sup,
+	     jc_util
+	    ]},	     
+  {registered, [jc_sup, jc_eviction_manager, jc_session_manager]},
+  {applications, [kernel, sasl, stdlib, mnesia, lager, resource_discovery]},
+  {mod, {jc_app, []}}
+ ]
+}.
