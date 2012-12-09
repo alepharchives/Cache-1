@@ -83,14 +83,6 @@ get_items(Req) ->
 %%------------------------------------------------------------------------------
 %% Verb handling section. PUT and POST
 %%------------------------------------------------------------------------------
-construct_name(Name) ->
-    list_to_atom("unit_loader-" ++ Name).
-
-handle_put("/refresh/update/unit", _LocalHost, Items, Req) when Items /= [] ->
-    [global:send(construct_name(Name), refresh) || Name <-Items],
-    
-    send_result(Req, ok, 200);
-
 handle_put("/append", LocalHost, Items, Req) when Items /= [] ->
     {Result, Code} = extract_params_and_apply(fun(K, V) -> jc:append(K, V) end, 
 					      Items, LocalHost),
@@ -197,39 +189,6 @@ handle_get("/resources", _Qs, Req, _) ->
 handle_get("/up", _Qs, Req, _) ->
     Result = jc:up(),
     send_result(Req, Result, 200);
-
-
-handle_get("/poll/composite/nursing", QS, Req, _) ->
-    Unit = proplists:get_value("unit_id", QS, undefined),
-    SessionId = extract_session(QS),
-    {NewSessionId, Result} = jc:nursing(Unit, SessionId),
-    send_result(Req, {{session_id, NewSessionId}, Result}, 200);
-
-handle_get("/poll/composite/bed_management", QS, Req, _) ->
-    Unit = proplists:get_value("unit_id", QS, undefined),
-    SessionId = extract_session(QS),
-    {NewSessionId, Result} = jc:bed_management(Unit, SessionId),
-    send_result(Req, {{session_id, NewSessionId}, Result}, 200);
-
-handle_get("/poll/composite/service_planner", QS, Req, _) ->
-    {SessionId, Since} = get_from_session_id(QS, "PSP"),
-    Result = jc:service_planner(Since),
-    send_result(Req, {{session_id, SessionId}, Result}, 200);
-
-handle_get("/poll/composite/evs_supervisor", QS, Req, _) ->
-    {SessionId, Since} = get_from_session_id(QS, "EVS"),
-    Result = jc:evs(Since),
-    send_result(Req, {{session_id, SessionId}, Result}, 200);
-
-handle_get("/poll/composite/case_management", QS, Req, _) ->
-    {SessionId, Since} = get_from_session_id(QS, "LOS"),
-    Result = jc:los(Since),
-    send_result(Req, {{session_id, SessionId}, Result}, 200);
-
-handle_get("/poll/composite/transport_supervisor", QS, Req, _) ->
-    {SessionId, Since} = get_from_session_id(QS, "TRX"),
-    Result = jc:trx(Since),
-    send_result(Req, {{session_id, SessionId}, Result}, 200);
 
 
 handle_get("/key/scope/" ++ Key, _, Req, _) ->
@@ -616,26 +575,5 @@ get_time_stamp(QS)->
 	{Int,[]} -> Int;
 	_ -> 0
     end.
-
-%% return the clientSessionId URL query paramater as an integer.
-%% 
-extract_session(QS)->
-    SessionString = proplists:get_value("clientSessionId", QS, "0"),
-    case string:to_integer(SessionString) of
-	{Int, []} -> Int;
-	_ -> 0
-    end.
-
-
-%% extract the session id and time stamp depending on the scope
-%%
-get_from_session_id(QS, Scope)->
-    SessionId = extract_session(QS),
-    {OldS, Session, TimeStamp} = jc:get_session(SessionId, Scope),
-    Since = case OldS of
-		Scope -> TimeStamp;
-		_ ->  0
-	    end,
-    {Session, Since}.
 
 

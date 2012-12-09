@@ -46,9 +46,6 @@
 	]).
 
 
-% Plymouth back-end polling support
--export([write_session/2, touch_session/2, remove_sessions/1]).
-
 
  % Table and record definitions.
 -include("../../include/records.hrl").   
@@ -442,8 +439,6 @@ delete(Key) ->
 delete_cache() ->
     [mnesia:delete(key_to_value, Akey, sticky_write) || 
 	Akey <- mnesia:all_keys(key_to_value)],
-    [mnesia:delete(session, Akey, sticky_write) || 
-	Akey <- mnesia:all_keys(session)],
     [mnesia:delete(ttl, Akey, sticky_write) || 
 	Akey <- mnesia:all_keys(ttl)],
 
@@ -495,61 +490,6 @@ inactivate_keylist(KeyList) ->
 	    
 
 %%==============================================================================
-%% For PLYMOUTH clients, provide a clientSessionId that maps between  
-%% a unique session and the last retrieve time for a given  plymouth concern 
-%% (LOS, EVS, nursing/unit, etc.). These functions aways return 
-%% {OldScope, SessionID, Time} where the Time is the last access time for the 
-%% given scope.
-%%==============================================================================
-
-
-%%------------------------------------------------------------------------------
-%% Create a new session that initially tracks the last view time of the given 
-%% scope
-%%
-write_session(Ref, Scope) ->
-    Now = jc_util:now_to_Uepoch(),
-    Session = #session{key=Ref, last_scope=Scope, create=Now, last_access=Now},
-    mnesia:dirty_write(Session),
-    {Scope, Ref, 0}.
-
-
-%%------------------------------------------------------------------------------
-%% If the session doesn't exist, return an error. If it exists replace the Scope 
-%% and update the visit time
-%%
-touch_session(SessionId, NewScope) ->
-    case mnesia:dirty_read(session, SessionId) of
-	[#session{last_scope=NewScope, last_access=LA} = Session] ->
-	    Now = jc_util:now_to_Uepoch(),
-	    mnesia:dirty_write(Session#session{last_access=Now}),
-	    {NewScope, SessionId, LA};
-	[#session{last_scope=OldScope, last_access=LA}=Session] ->
-	    Now = jc_util:now_to_Uepoch(),
-	    mnesia:dirty_write(Session#session{last_scope=NewScope, last_access=Now}),
-	    {OldScope, SessionId, LA};
-	[] ->
-	    {error, no_session}
-    end.							   
-    
-%%------------------------------------------------------------------------------
-%% Look for sessions whose last_access time is older than the given number of 
-%% microseconds.
-%%
-remove_sessions(OlderThanMicroS) ->
-    M = [{#session{last_access='$1', _='_'},
-	  [{'<', '$1', OlderThanMicroS}], ['$_']}],
-    
-    case mnesia:dirty_select(session, M) of
-	[] -> ok;
-	Garbage ->
-	    [mnesia:dirty_delete({session, Key}) || 
-		#session{key=Key} <-Garbage],
-	    ok
-    end.
-
-
-%%==============================================================================
 %%                              CLUSTER 
 %%==============================================================================
 
@@ -570,10 +510,6 @@ dynamic_db_init([]) ->
 			]),
     mnesia:create_table(ttl,
 			[{attributes, record_info(fields, ttl)}
-			]),
-    mnesia:create_table(session,
-			[{attributes, record_info(fields, session)},
-			 {type, set}
 			]),
     mnesia:create_table(stats,
 			[{attributes, record_info(fields, stats)}
@@ -597,7 +533,6 @@ add_extra_nodes([Node|T]) ->
 	    lager:info("Joining cluster: ~p", [node()|nodes()]),
 	    mnesia:add_table_copy(schema, node(), ram_copies),
 	    mnesia:add_table_copy(key_to_value, node(), ram_copies),
-	    mnesia:add_table_copy(session, node(), ram_copies),
 	    mnesia:add_table_copy(ttl, node(), ram_copies),
 	    mnesia:add_table_copy(stats, node(), ram_copies),
 	    Tables = mnesia:system_info(tables),

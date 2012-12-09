@@ -33,12 +33,6 @@
 	 mset_and_inactivate/4
 	]).
 
-% Plymouth back-end polling support
--export([establish_session/1, 
-	 extend_session/2,
-	 touch_session/2,
-	 remove_sessions/1]).
-
 
 % CACHE META-DATA SUPPORT
 -export([stats/1]).
@@ -779,51 +773,3 @@ rec_to_tuple(#key_to_value{key=K, value=V, type=T, scope=S, create_tm=C,
 
 
 
-%%==============================================================================
-%% For PLYMOUTH clients, provide a clientSessionId that maps between  
-%% a unique session and the last retrieve time for a given  plymouth concern 
-%% (LOS, EVS, nursing/unit, etc.). These functions aways return {SessionID, Time}
-%% where the Time is the last access time for the given scope.
-%%==============================================================================
-
-
-%%------------------------------------------------------------------------------
-%% Create a new session whose id is built from now() and initially tracks the 
-%% last view time of the given scope
-%%
-establish_session(Scope)->
-    {G, S, M} = now(),
-    Ref = (G * 1000000000000) + (S * 1000000) + M,
-    jc_store:write_session(Ref, Scope).
-
-
-%%------------------------------------------------------------------------------
-%% SessionID already exists, but a new Scope has been accessed, update the Scope
-%% associated with the SesionID and the time
-%%
-extend_session(SessionId, Scope) ->
-    jc_store:write_session(SessionId, Scope).
-
-
-%%------------------------------------------------------------------------------
-%% If the session doesn't exist, create it. If it exists but the given Scope 
-%% has not previously been visited, extend the session to include that Scope. 
-%% Otherwise update the last_access time.
-%%
-
-touch_session(0, Scope) ->
-    establish_session(Scope);
-touch_session(SessionId, Scope) ->
-    case jc_store:touch_session(SessionId, Scope) of
-	{error, no_session} ->
-	    extend_session(SessionId, Scope);
-	Result ->
-	    Result
-    end.
-
-
-%%------------------------------------------------------------------------------
-%% Remove sessions odler than the given number of microseconds
-%%
-remove_sessions(OlderThanMicroS)->
-    jc_store:remove_sessions(OlderThanMicroS).

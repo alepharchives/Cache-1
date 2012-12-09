@@ -159,7 +159,6 @@ stats(_Config) ->
     {stats, 1, _} = lists:keyfind(stats, 1, Data),
     {ttl, 0, _} = lists:keyfind(ttl, 1, Data),
     {key_to_value, 0, _} = lists:keyfind(key_to_value, 1, Data),
-    {session, 0, _} = lists:keyfind(session, 1, Data),
 
     ok.
 
@@ -478,7 +477,6 @@ delete(_Config) ->
     {atomic, ok} = mnesia:transaction(F),
     0 = mnesia:table_info(key_to_value, size),
     0 = mnesia:table_info(ttl, size),
-    0 = mnesia:table_info(session, size),
     ok.
 
 

@@ -889,7 +889,6 @@ delete(_Config) ->
     {ok,{{"HTTP/1.1",200,"OK"},_, _}} = 
 	httpc:request(delete, {"http://localhost:3000/flush", []}, [], []),
     {size, [{stats, _, _},
-	    {session, 0, _},
 	    {ttl, 0, _},
 	    {key_to_value, 0, _},
 	    {schema, _,_}]}= jc:cache_size(),
@@ -918,9 +917,6 @@ meta(_Config) ->
        {array,
 	[{struct,
 	  [{"stats",
-	    {struct,[{"records",_},{"words",_}]}}]},
-	 {struct,
-	  [{"session",
 	    {struct,[{"records",_},{"words",_}]}}]},
 	 {struct,
 	  [{"ttl",
