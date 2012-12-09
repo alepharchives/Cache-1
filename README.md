@@ -129,9 +129,9 @@ artificat that defines which applications are started with the node
      * {rel, "jc", 1, [kernel,...,jc,jc_http_server]} <- list should end with these last two
      * {app, jc, [{mod_cond, app}, {incl_cond, include}]} <- make sure app references jc
   * Copy ex_config/sys.config to rel/files/sys.config 
-  * Copy ex_config/vm.config to rel/vm.config files
+  * Copy ex_config/vm.args to rel/vm.args
 6. Adjust the IP address of rel/files/sys.config to reflect the machine being utilized
-7. Adjust the IP address and cookie of rel/files/vm.config as appropriate
+7. Adjust the IP address and cookie of rel/files/vm.args as appropriate
 6. Generate the Release Node
   * [root@dbo1] change directorys back to JCache
   * [root@dbo1] ./rebar generate
