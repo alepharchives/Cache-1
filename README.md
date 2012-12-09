@@ -2,7 +2,6 @@ Jcache
 ====
 
 
-[![Build Status](https://travis-ci.org/jr0senblum/Cache.png)](https://travis-ci.org/jr0senblum/Cache)
 
 ##Erlang, Distributable, In-Memory Cache
 
